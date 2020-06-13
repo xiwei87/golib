@@ -1,8 +1,9 @@
 package http
 
 import (
-	"golib"
 	"time"
+
+	"gitlab.66ifuel.com/golang-tools/golib"
 )
 
 type HttpRequest struct {

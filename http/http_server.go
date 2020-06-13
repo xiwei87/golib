@@ -2,7 +2,6 @@ package http
 
 import (
 	"fmt"
-	"golib"
 	"math/rand"
 	"net/http"
 	"os"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	log "github.com/go-eden/slf4go"
+	"gitlab.66ifuel.com/golang-tools/golib"
 )
 
 type HttpServer struct {
