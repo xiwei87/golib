@@ -1,4 +1,4 @@
-package golib
+package common
 
 type ErrorCodeType int32
 

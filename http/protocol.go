@@ -3,7 +3,7 @@ package http
 import (
 	"time"
 
-	"gitlab.66ifuel.com/golang-tools/golib"
+	"gitlab.66ifuel.com/golang-tools/golib/common"
 )
 
 type HttpRequest struct {
@@ -17,5 +17,5 @@ type HttpRequest struct {
 
 type HttpResponse struct {
 	status  int
-	errCode golib.ErrorCodeType
+	errCode common.ErrorCodeType
 }

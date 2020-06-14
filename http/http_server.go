@@ -10,7 +10,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	log "github.com/go-eden/slf4go"
-	"gitlab.66ifuel.com/golang-tools/golib"
+	"gitlab.66ifuel.com/golang-tools/golib/common"
+	"gitlab.66ifuel.com/golang-tools/golib/config"
 )
 
 type HttpServer struct {
@@ -47,13 +48,13 @@ func NewHttpServer() *HttpServer {
 }
 
 func (s *HttpServer) run() error {
-	addr := ":" + strconv.Itoa(golib.Cfg.Http.ListenPort)
+	addr := ":" + strconv.Itoa(config.Cfg.Http.ListenPort)
 	s.Server = &http.Server{
 		Addr:           addr,
 		Handler:        s.Dispatch,
-		ReadTimeout:    time.Duration(golib.Cfg.Http.ReadTimeout) * time.Second,
-		WriteTimeout:   time.Duration(golib.Cfg.Http.WriteTimeout) * time.Second,
-		MaxHeaderBytes: golib.Cfg.Http.MaxHeaderSize,
+		ReadTimeout:    time.Duration(config.Cfg.Http.ReadTimeout) * time.Second,
+		WriteTimeout:   time.Duration(config.Cfg.Http.WriteTimeout) * time.Second,
+		MaxHeaderBytes: config.Cfg.Http.MaxHeaderSize,
 	}
 	return s.Server.ListenAndServe()
 }
@@ -76,7 +77,7 @@ func (s *HttpServer) printAccessLog() gin.HandlerFunc {
 		}
 		/* init response */
 		s.Response.status = http.StatusOK
-		s.Response.errCode = golib.CODE_OK
+		s.Response.errCode = common.CODE_OK
 		c.Header("Server", "66ifuel/1.0.0")
 		c.Header("X-Request-Id", fmt.Sprintf("%d", s.Request.requestId))
 		// Process request
@@ -91,7 +92,7 @@ func (s *HttpServer) printAccessLog() gin.HandlerFunc {
 
 func (s *HttpServer) NoMethodHandler(ctx *gin.Context) {
 	format := `{"request_id":%d,"err_code":%d,"err_msg":"%s"}`
-	resStr := fmt.Sprintf(format, s.Request.requestId, golib.CODE_NO_METHOD, "method not allowed")
+	resStr := fmt.Sprintf(format, s.Request.requestId, common.CODE_NO_METHOD, "method not allowed")
 	ctx.Header("Content-Type", "application/json; charset=utf-8")
 	ctx.Writer.Write([]byte(resStr))
 }

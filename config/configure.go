@@ -1,4 +1,4 @@
-package golib
+package config
 
 import (
 	"os"
