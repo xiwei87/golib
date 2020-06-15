@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	log "github.com/go-eden/slf4go"
 	"gitlab.66ifuel.com/golang-tools/golib/common"
 	"gitlab.66ifuel.com/golang-tools/golib/config"
+	"gitlab.66ifuel.com/golang-tools/golib/log"
 )
 
 type HttpServer struct {
@@ -88,8 +88,9 @@ func (s *HttpServer) printAccessLog() gin.HandlerFunc {
 		c.Next()
 		// Print Access Log
 		requestTime := (time.Now().UnixNano() - s.Request.startTime.UnixNano()) / 1e6
-		log.Info("errno[%d] ip[%s] logId[%d] uri[%s] cost[%d] status[%d] ua[%s] request done",
-			s.Response.errCode, s.Request.remoteAddr, s.Request.requestId, c.Request.URL.Path, requestTime,
+		format := "errno[%d] ip[%s] logId[%d] uri[%s] cost[%d] status[%d] ua[%s] request done"
+		log.Logger.Info(format, s.Response.errCode, s.Request.remoteAddr,
+			s.Request.requestId, c.Request.URL.Path, requestTime,
 			s.Response.status, s.Request.userAgent)
 	}
 }
