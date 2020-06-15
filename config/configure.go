@@ -11,6 +11,7 @@ var Cfg Config
 type Config struct {
 	Server ServerCfg `yaml:"server"`
 	Http   HttpCfg   `yaml:"http"`
+	Sqlite SqliteCfg `yaml:"sqlite"`
 }
 
 type ServerCfg struct {
@@ -27,6 +28,12 @@ type HttpCfg struct {
 	WriteTimeout     uint `yaml:"WriteTimeout"`
 	WriteIdleTimeout uint `yaml:"WriteIdleTimeout"`
 	MaxHeaderSize    int  `yaml:"MaxHeaderSize"`
+}
+
+type SqliteCfg struct {
+	DbPath   string `yaml:"DbPath"`
+	DbName   string `yaml:"DbName"`
+	Password string `yaml:"Password"`
 }
 
 func ReadConfig(config interface{}, filename string) error {
