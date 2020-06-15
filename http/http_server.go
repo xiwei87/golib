@@ -47,7 +47,7 @@ func NewHttpServer() *HttpServer {
 	return s
 }
 
-func (s *HttpServer) run() error {
+func (s *HttpServer) Run() error {
 	addr := ":" + strconv.Itoa(config.Cfg.Http.ListenPort)
 	s.Server = &http.Server{
 		Addr:           addr,
