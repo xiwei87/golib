@@ -17,6 +17,7 @@ func InitSqliteDb() (err error) {
 	if engine, err = xorm.NewEngine("sqlite3", dbPath); err != nil {
 		return err
 	}
+
 	return nil
 }
 

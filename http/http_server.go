@@ -59,6 +59,10 @@ func (s *HttpServer) run() error {
 	return s.Server.ListenAndServe()
 }
 
+func (s *HttpServer) Close() error {
+	return s.Server.Close()
+}
+
 func (s *HttpServer) SetKeepAlivesEnabled(v bool) {
 	s.Server.SetKeepAlivesEnabled(v)
 }
