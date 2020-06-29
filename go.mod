@@ -1,4 +1,4 @@
-module gitlab.66ifuel.com/golang-tools/golib
+module github.com/xiwei87/golib
 
 go 1.14
 
