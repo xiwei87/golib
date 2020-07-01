@@ -19,7 +19,7 @@ type SqliteCfg struct {
 }
 
 type MysqlCfg struct {
-	Server            string `yaml:"server"`
+	Server            string `yaml:"http_server"`
 	ConnectionNum     int    `yaml:"conn_num"`
 	ConnectionIdleNum int    `yaml:"conn_idle_num"`
 	UserName          string `yaml:"user_name"`

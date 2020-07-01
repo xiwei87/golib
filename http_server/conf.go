@@ -1,8 +1,9 @@
-package server
+package http_server
 
 import (
-	"gopkg.in/yaml.v2"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 var cfg Config
