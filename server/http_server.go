@@ -1,8 +1,11 @@
 package server
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -10,6 +13,8 @@ import (
 	"github.com/xiwei87/golib/common"
 	"github.com/xiwei87/golib/utils"
 )
+
+var server *http.Server
 
 type HttpServer struct {
 	Dispatch *gin.Engine
@@ -37,6 +42,33 @@ func NewHttpServer() *HttpServer {
 		_, _ = ctx.Writer.Write([]byte("STATUS OK"))
 	})
 	return s
+}
+
+func (s *HttpServer) StartServer(confPath string) error {
+	var err error
+
+	if confPath == "" {
+		return errors.New("配置文件地址为空")
+	}
+	if err = ReadConfig(confPath); err != nil {
+		return err
+	}
+	addr := ":" + strconv.Itoa(cfg.Http.ListenPort)
+	server = &http.Server{
+		Addr:           addr,
+		Handler:        s.Dispatch,
+		ReadTimeout:    time.Duration(cfg.Http.ReadTimeout) * time.Second,
+		WriteTimeout:   time.Duration(cfg.Http.WriteTimeout) * time.Second,
+		MaxHeaderBytes: cfg.Http.MaxHeaderSize,
+	}
+	return server.ListenAndServe()
+}
+
+func (s *HttpServer) StopServer() error {
+	if nil == server {
+		return errors.New("Http Server Not Run")
+	}
+	return server.Shutdown(context.TODO())
 }
 
 func (s *HttpServer) printAccessLog() gin.HandlerFunc {
