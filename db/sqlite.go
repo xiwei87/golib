@@ -3,18 +3,17 @@ package db
 import (
 	"os"
 	"strings"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
-	"gitlab.66ifuel.com/golang-tools/golib/config"
 	"xorm.io/xorm"
 )
 
-var engine *xorm.Engine
-
-func dbDirCreate(dbDir string) error {
-	if _, err := os.Stat(dbDir); os.IsNotExist(err) {
+//创建本地目录
+func createDir(dirName string) error {
+	if _, err := os.Stat(dirName); os.IsNotExist(err) {
 		/* create directory */
-		err = os.MkdirAll(dbDir, 0777)
+		err = os.MkdirAll(dirName, 0777)
 		if err != nil {
 			return err
 		}
@@ -22,22 +21,26 @@ func dbDirCreate(dbDir string) error {
 	return nil
 }
 
-func InitSqliteDb() (err error) {
-	var dbPath string
-
-	dbPath = config.Cfg.Sqlite.DbPath
-	strings.TrimSuffix(dbPath, "/")
-	/* create db path */
-	if err = dbDirCreate(dbPath); err != nil {
-		return err
+//初始化SQLITE
+func initSqliteDb() (*xorm.Engine, error) {
+	var (
+		err    error
+		engine *xorm.Engine
+		dbPath string
+	)
+	//处理数据库目录地址
+	dbPath = strings.TrimSuffix(DbCfg.Sqlite.DbPath, "/")
+	//生成数据库目录
+	if err = createDir(dbPath); err != nil {
+		return nil, err
 	}
-	dbPath = dbPath + "/" + config.Cfg.Sqlite.DbName + ".db"
+	//创建数据库
+	dbPath = dbPath + "/" + DbCfg.Sqlite.DbName + ".db"
 	if engine, err = xorm.NewEngine("sqlite3", dbPath); err != nil {
-		return err
+		return nil, err
 	}
-	return nil
-}
+	//设置时区
+	engine.DatabaseTZ, _ = time.LoadLocation("Asia/Shanghai")
 
-func QuerySqliteEngine() *xorm.Engine {
-	return engine
+	return engine, nil
 }

@@ -1,7 +1,6 @@
 package db
 
 import (
-	"gitlab.66ifuel.com/golang-tools/golib/config"
 	"testing"
 	"time"
 	"xorm.io/xorm"
@@ -20,13 +19,17 @@ func (u *User) TableName() string {
 }
 
 func TestCreateSqliteDb(t *testing.T) {
-	config.Cfg.Sqlite.DbName = "test"
-	config.Cfg.Sqlite.DbPath = "./"
+	var (
+		err    error
+		engine *xorm.Engine
+	)
+	DbCfg.Sqlite.DbName = "test"
+	DbCfg.Sqlite.DbPath = "/tmp/test/"
 
-	if err := InitSqliteDb(); err != nil {
+	if engine, err = initSqliteDb(); err != nil {
 		t.Error(err)
 	}
-	var engine *xorm.Engine
-	engine = QuerySqliteEngine()
-	_ = engine.Sync2(new(User))
+	if err = engine.Sync2(new(User)); err != nil {
+		t.Error(err)
+	}
 }
