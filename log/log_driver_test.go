@@ -5,7 +5,6 @@ import (
 	"time"
 
 	slog "github.com/go-eden/slf4go"
-	"gitlab.66ifuel.com/golang-tools/golib/config"
 )
 
 func TestGlobalLogger(t *testing.T) {
