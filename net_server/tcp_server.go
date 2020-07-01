@@ -15,9 +15,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
-)
 
-import (
 	"github.com/baidu/go-lib/web-monitor/module_state2"
 	slog "github.com/go-eden/slf4go"
 )

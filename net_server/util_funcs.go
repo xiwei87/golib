@@ -1,22 +1,10 @@
-/* util_funcs.go - util functions for net_server   */
-/*
-modification history
---------------------
-2014/3/10, by Zhang Miao, create
-2014/8/6, by Zhang Miao, move code from waf_server
-*/
-/*
-DESCRIPTION
-*/
 package net_server
 
 import (
 	"errors"
 	"net"
-)
 
-import (
-	"www.baidu.com/golang-lib/module_state2"
+	"github.com/baidu/go-lib/web-monitor/module_state2"
 )
 
 /* read specific len of data from connection    */
