@@ -7,15 +7,15 @@ import (
 )
 
 type HttpRequest struct {
-	httpMethod  string
-	requestId   string
-	startTime   time.Time
-	remoteAddr  string
-	requestTime string
-	userAgent   string
+	HttpMethod  string
+	RequestId   string
+	StartTime   time.Time
+	RemoteAddr  string
+	RequestTime string
+	UserAgent   string
 }
 
 type HttpResponse struct {
-	status  int
-	errCode common.ErrorCodeType
+	Status  int
+	ErrCode common.ErrorCodeType
 }
