@@ -81,7 +81,7 @@ func (s *HttpServer) printAccessLog() gin.HandlerFunc {
 		s.Request.StartTime = time.Now()
 		s.Request.HttpMethod = c.Request.Method
 		s.Request.RequestId = utils.NewRequestId()
-		s.Request.RequestTime = c.ClientIP()
+		s.Request.RemoteAddr = c.ClientIP()
 		if userAgent := c.Request.Header.Get("User-Agent"); userAgent != "" {
 			s.Request.UserAgent = userAgent
 		} else {
