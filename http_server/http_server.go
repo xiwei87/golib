@@ -23,6 +23,15 @@ type HttpServer struct {
 	Response *HttpResponse
 }
 
+type HttpCfg struct {
+	ListenPort       int  `yaml:"listen_port"`
+	ReadTimeout      uint `yaml:"read_timeout"`
+	ReadIdleTimeout  uint `yaml:"read_idle_timeout"`
+	WriteTimeout     uint `yaml:"write_timeout"`
+	WriteIdleTimeout uint `yaml:"write_idle_timeout"`
+	MaxHeaderSize    int  `yaml:"max_header_size"`
+}
+
 func init() {
 	gin.SetMode(gin.ReleaseMode)
 }
@@ -44,22 +53,17 @@ func NewHttpServer() *HttpServer {
 	return s
 }
 
-func (s *HttpServer) StartServer(confPath string) error {
-	var err error
-
-	if confPath == "" {
-		return errors.New("配置文件地址为空")
+func (s *HttpServer) StartServer(cfg *HttpCfg) error {
+	if cfg == nil {
+		return errors.New("配置文件为空")
 	}
-	if err = ReadConfig(confPath); err != nil {
-		return err
-	}
-	addr := ":" + strconv.Itoa(cfg.Http.ListenPort)
+	addr := ":" + strconv.Itoa(cfg.ListenPort)
 	server = &http.Server{
 		Addr:           addr,
 		Handler:        s.Dispatch,
-		ReadTimeout:    time.Duration(cfg.Http.ReadTimeout) * time.Second,
-		WriteTimeout:   time.Duration(cfg.Http.WriteTimeout) * time.Second,
-		MaxHeaderBytes: cfg.Http.MaxHeaderSize,
+		ReadTimeout:    time.Duration(cfg.ReadTimeout) * time.Second,
+		WriteTimeout:   time.Duration(cfg.WriteTimeout) * time.Second,
+		MaxHeaderBytes: cfg.MaxHeaderSize,
 	}
 	return server.ListenAndServe()
 }
