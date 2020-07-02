@@ -1,13 +1,3 @@
-/* tcp_conn_table_test.go - test for tcp_conn_table.go  */
-/*
-modification history
---------------------
-2014/3/11, by Zhang Miao, create
-2014/8/6, by Zhang Miao, move from waf_server
-*/
-/*
-DESCRIPTION
-*/
 package net_server
 
 import (
@@ -15,11 +5,7 @@ import (
 	"testing"
 )
 
-import "www.baidu.com/golang-lib/log"
-
 func TestTcpConnTableAdd(t *testing.T) {
-	log.Init("test", "DEBUG", "./log", true, "D", 5)
-
 	var tcpTable TcpConnTable
 
 	/* initialize tcp table */
@@ -39,6 +25,4 @@ func TestTcpConnTableAdd(t *testing.T) {
 	if err != nil {
 		t.Error("err in tcpTable.Remove()")
 	}
-
-	log.Logger.Close()
 }
