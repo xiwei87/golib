@@ -95,7 +95,7 @@ func Create(progName string, levelStr string, logDir string, hasStdOut bool,
 	if logWriter == nil {
 		return nil, fmt.Errorf("error in log4go.NewTimeFileLogWriter(%s)", fileName)
 	}
-	logWriter.SetFormat("[%L] %D %t [%S] %M")
+	logWriter.SetFormat("[%L] %D %T [%S] %M")
 	logger.AddFilter("log", level, logWriter)
 
 	return logger, nil
