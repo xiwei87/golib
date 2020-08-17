@@ -46,6 +46,11 @@ type MqttConfig struct {
 	WillTopic string `yaml:"will_topic"`
 }
 
+//获取MQTT句柄
+func GetClient() *mqtt.Client {
+	return &client
+}
+
 //初始化连接服务器
 func Connect(config *MqttConfig) error {
 	var (
